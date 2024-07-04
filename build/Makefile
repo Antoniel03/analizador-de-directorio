@@ -3,3 +3,6 @@ run:
 	@./test
 	@rm test
 
+com:
+	@g++ ../testing/test.cpp -o test
+	@./test

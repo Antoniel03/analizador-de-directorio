@@ -24,7 +24,7 @@ make com
 ## Roadmap
 
 - [x] Obtención de elementos en el directorio.
-- [ ] Jerarquía de archivos y carpetas.
+- [x] Jerarquía de archivos y carpetas.
 - [ ] Búsqueda.
 	- [ ] Por nombre.
 	- [ ] Por extensión.

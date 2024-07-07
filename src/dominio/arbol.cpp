@@ -1,6 +1,7 @@
 #include "headers/arbol.hpp"
 #include "../estructuras/nodo.hpp"
 #include "headers/utilidades.hpp"
+#include <filesystem>
 #include <iostream>
 #include <list>
 #include <vector>
@@ -52,3 +53,53 @@ void Tree::printChilds(string key) {
 node Tree::getNode(string key) { return nodes[key]; }
 
 node *Tree::getAddressToNode(string key) { return &nodes[key]; }
+
+void Tree::auxiliarPreorden(node *raiz, list<string> &ans) {
+  if (!raiz)
+    return;
+  ans.push_back(raiz->route);
+  for (auto child : raiz->childs) {
+    auxiliarPreorden(getAddressToNode(child), ans);
+  }
+}
+
+list<string> Tree::preorden(string ruta) {
+  list<string> ans;
+  node *root = &nodes[ruta];
+  if (!root)
+    return ans;
+  auxiliarPreorden(root, ans);
+  return ans;
+}
+
+list<node> Tree::keySimilares(string key) {
+  list<node> resultados;
+
+  for (string ruta : keys) {
+    if (contieneSubstring(ruta, key))
+      if (key != nodes[ruta].name)
+        resultados.push_back(nodes[ruta]);
+  }
+  return resultados;
+}
+
+list<node> Tree::busquedaPorNombre(string objetivo) {
+  list<node> resultado;
+  for (string archivo : keys) {
+    string nombre = nodes[archivo].name;
+    if (nombre == objetivo) {
+      resultado.push_back(nodes[archivo]);
+    }
+  }
+  return resultado;
+}
+
+list<node> Tree::busquedaPorExtension(string extension) {
+  list<node> resultados;
+  for (string archivo : keys) {
+    std::filesystem::path rutaArchivo{archivo};
+    if ("." + extension == rutaArchivo.extension())
+      resultados.push_back(nodes[archivo]);
+  }
+  return resultados;
+}

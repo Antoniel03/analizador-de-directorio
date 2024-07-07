@@ -21,7 +21,6 @@ vector<string> split(string texto, char caracter);
 string joinVectorStrings(vector<string> segmentedText, char separator,
                          int partsToJoin);
 node createNode(string path);
-
 list<node> getEmptyList();
 
 string getParent(string path);
@@ -32,10 +31,12 @@ Tree getTreeFromPath(string pathToDirectory);
 
 void printRawDirectory(string pathToDirectory);
 
-void printStringList(list<string> elements);
+bool esCarpeta(string ruta);
 
-void helper(node *root, list<string> &ans, Tree t);
+int getPeso(string ruta);
 
-list<string> preorder(node *root, Tree *t);
+bool existeDirectorio(string ruta);
+
+bool contieneSubstring(string texto, string caracteres);
 
 #endif // UTILIDADES

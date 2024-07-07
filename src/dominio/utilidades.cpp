@@ -15,6 +15,7 @@ string getRepeatedString(char c, int i) {
   string result;
   for (int j = 0; j < i; j++) {
     result += c;
+    result += c;
   }
   return result;
 }
@@ -25,7 +26,6 @@ void levelPrint(node n) {
 }
 
 vector<string> split(string texto, char caracter) {
-
   vector<string> resultado;
   string palabra = "";
 
@@ -108,25 +108,43 @@ void printRawDirectory(string pathToDirectory) {
   }
 }
 
-void printStringList(list<string> elements) {
-  for (string i : elements) {
-    cout << i << endl;
-  }
+bool esCarpeta(string ruta) {
+  std::filesystem::path archivo(ruta);
+  if (std::filesystem::is_directory(archivo))
+    return true;
+  return false;
 }
 
-void helper(node *root, list<string> &ans, Tree t) {
-  if (!root)
-    return;
-  ans.push_back(root->route);
-  for (auto child : root->childs) {
-    helper(t.getAddressToNode(child), ans, t);
+int getPeso(string ruta) {
+  std::filesystem::path archivo(ruta);
+  int peso;
+  try {
+    peso = std::filesystem::file_size(archivo);
+  } catch (const std::filesystem::filesystem_error &e) {
+    std::cerr << "Error: " << e.what() << std::endl;
   }
+  return peso;
 }
 
-list<string> preorder(node *root, Tree *t) {
-  list<string> ans;
-  if (!root)
-    return ans;
-  helper(root, ans, *t);
-  return ans;
+bool existeDirectorio(string ruta) {
+  if (std::filesystem::exists(ruta))
+    return true;
+
+  return false;
+}
+
+bool contieneSubstring(string texto, string caracteres) {
+  int check = 0;
+  int letras = caracteres.length();
+
+  for (char c : texto) {
+    if (c == caracteres[check]) {
+      check++;
+      if (check == letras)
+        return true;
+    } else
+      check = 0;
+  }
+
+  return false;
 }

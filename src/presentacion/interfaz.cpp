@@ -1,0 +1,153 @@
+#include "interfaz.hpp"
+#include "../dominio/headers/utilidades.hpp"
+#include <iostream>
+#include <list>
+#include <vector>
+
+using std::cin;
+using std::cout;
+using std::endl;
+using std::list;
+using std::string;
+using std::vector;
+
+#define RED "\x1b[31m"
+#define YELLOW "\x1b[33m"
+#define BLUE "\x1b[34m"
+#define RESET "\x1b[0m"
+#define GREEN "\x1B[32m"
+
+/*vector<string> opcionesMenu{"Establecer directorio.", "Salir."};*/
+/**/
+/*vector<string> opcionesMenu2{*/
+/*    "Busqueda de archivo por nombre.",*/
+/*    "Busqueda de archivo por tipo.",*/
+/*    "Generar HTML.",*/
+/*    "Volver.",*/
+/*};*/
+
+void Interfaz::pause() {
+  cout << "\nPresione enter para continuar.";
+  getchar();
+}
+
+bool Interfaz::validarInput(string input) { // Valida entra de datos numéricas
+  if (input == "")
+    return false;        // verdadero: solo hay números en el string dado
+  for (auto i : input) { // falso:hay otros caracteres
+    if (isalpha(i))
+      return false;
+  }
+  return true;
+}
+
+int Interfaz::getInput(int range) { // Entrada de datos numérica
+  string input;
+  cout << GREEN << ">>: " << RESET;
+  getline(std::cin, input);
+  if (!validarInput(input))
+    return 0;
+
+  int inputOpcion = stoi(input);
+
+  if ((inputOpcion) > 0 && (inputOpcion <= range)) {
+    return stoi(input);
+  }
+
+  else
+    return 0;
+}
+
+string Interfaz::getText(string mensaje) {
+  string text;
+  cout << "\n" + mensaje << GREEN << " >>: " << RESET;
+  getline(cin, text);
+  return text;
+}
+
+void Interfaz::inputIncorrecto() {
+  printf(RED "\nOpcion invalida.\n" RESET);
+  pause();
+}
+
+void Interfaz::errorPersonalizado(string mensaje) {
+  cout << RED << mensaje << RESET;
+  pause();
+}
+
+void Interfaz::printOpciones(vector<string> opciones, bool numeracion) {
+  for (int i = 0; i < opciones.size(); i++) {
+    if (numeracion)
+      cout << GREEN << i + 1 << ") " << RESET;
+    cout << opciones[i];
+    cout << endl;
+  }
+}
+
+void Interfaz::printTitulo(string title) {
+  cout << " -------------- " << GREEN + title + RESET + " -------------- \n\n";
+}
+
+int Interfaz::Menu(vector<string> opciones, string titulo) {
+
+  int rango = opciones.size();
+  int seleccion = 0;
+  while (true) {
+    printTitulo(titulo);
+    printOpciones(opciones, true);
+    seleccion = getInput(rango);
+    if (seleccion != 0)
+      break;
+    else
+      inputIncorrecto();
+    system("clear");
+  }
+  return seleccion;
+}
+
+void Interfaz::printArchivo(node n) {
+  string archivoFormateado = getRepeatedString(' ', n.level) + n.route;
+  if (esCarpeta(n.route)) {
+    cout << GREEN;
+    cout << archivoFormateado;
+    cout << RESET;
+  } else {
+    int peso = getPeso(n.route);
+    cout << archivoFormateado << YELLOW << " " << peso << " Bytes" << RESET;
+  }
+  cout << endl;
+}
+
+void Interfaz::printStringList(list<string> elements) {
+  for (string i : elements) {
+    node n = createNode(i);
+    if (existeDirectorio(i)) {
+      printArchivo(n);
+    }
+  }
+}
+
+void Interfaz::printBusqueda(list<node> elementos) {
+  for (node n : elementos) {
+    cout << GREEN << n.name << RESET << " --> " << n.route << endl;
+  }
+}
+
+void Interfaz::printColorString(int numeroColor, string mensaje) {
+  string color = getColor(numeroColor);
+  cout << color << mensaje << RESET;
+}
+
+string Interfaz::getColor(int numeroColor) {
+  switch (numeroColor) {
+  case 1:
+    return YELLOW;
+  case 2:
+    return BLUE;
+  case 3:
+    return RED;
+  case 4:
+    return GREEN;
+  }
+  return "";
+}

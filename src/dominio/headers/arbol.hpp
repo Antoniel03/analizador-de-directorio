@@ -26,10 +26,13 @@ public:
   void printChilds(string key);
   node getNode(string key);
   node *getAddressToNode(string key);
-  list<string> preorden(string ruta);
-  void auxiliarPreorden(node *raiz, list<string> &ans);
+  list<node> preorden(string ruta);
+  void auxiliarPreorden(node *raiz, list<node> &ans);
   list<node> busquedaPorNombre(string objetivo);
   list<node> keySimilares(string key);
   list<node> busquedaPorExtension(string extension);
+  void addKey(string path);
+  void cargarPesoDeCarpetas();
+  bool existeKey(string path);
 };
 #endif // !ARBOL

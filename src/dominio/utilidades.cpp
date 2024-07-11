@@ -11,15 +11,34 @@ using std::list;
 using std::string;
 using std::vector;
 
+int getPeso(string ruta) {
+  std::filesystem::path archivo(ruta);
+  int peso;
+  try {
+    peso = std::filesystem::file_size(archivo);
+  } catch (const std::filesystem::filesystem_error &e) {
+    std::cerr << "Error: " << e.what() << std::endl;
+  }
+  return peso;
+}
+
+bool esCarpeta(string ruta) {
+  std::filesystem::path archivo(ruta);
+  if (std::filesystem::is_directory(archivo))
+    return true;
+  return false;
+}
+
 string getRepeatedString(char c, int i) {
   string result;
   for (int j = 0; j < i; j++) {
     result += c;
     result += c;
+    result += c;
+    result += c;
   }
   return result;
 }
-
 void levelPrint(node n) {
   string identated = getRepeatedString(' ', n.level) + n.route;
   cout << identated << endl;
@@ -38,7 +57,6 @@ vector<string> split(string texto, char caracter) {
       palabra = "";
     }
   }
-
   resultado.push_back(palabra);
   return resultado;
 }
@@ -62,6 +80,9 @@ node createNode(string path) {
   n.name = segmentedPath[size - 1];
   n.route = path;
   n.level = size;
+  if (!esCarpeta(path)) {
+    n.peso = getPeso(path);
+  }
   return n;
 }
 
@@ -96,7 +117,10 @@ Tree getTreeFromPath(string pathToDirectory) {
   for (const auto &entry : std::filesystem::recursive_directory_iterator(p)) {
     string path = entry.path();
     t.addNode(path);
+    if (path != pathToDirectory)
+      t.addKey(path);
   }
+  t.cargarPesoDeCarpetas();
   return t;
 }
 
@@ -106,24 +130,6 @@ void printRawDirectory(string pathToDirectory) {
   for (const auto &entry : std::filesystem::recursive_directory_iterator(p)) {
     cout << entry.path() << endl;
   }
-}
-
-bool esCarpeta(string ruta) {
-  std::filesystem::path archivo(ruta);
-  if (std::filesystem::is_directory(archivo))
-    return true;
-  return false;
-}
-
-int getPeso(string ruta) {
-  std::filesystem::path archivo(ruta);
-  int peso;
-  try {
-    peso = std::filesystem::file_size(archivo);
-  } catch (const std::filesystem::filesystem_error &e) {
-    std::cerr << "Error: " << e.what() << std::endl;
-  }
-  return peso;
 }
 
 bool existeDirectorio(string ruta) {

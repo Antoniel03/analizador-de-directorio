@@ -15,19 +15,21 @@ Tree::Tree() {}
 
 Tree::Tree(string root) {
   node n = createNode(root);
-  nodes[root];
-  keys.push_back(n.name);
+  nodes[root] = n;
+  keys.push_back(n.route);
 }
 
 void Tree::addNode(string path) {
   node n = createNode(path);
   string parent = getParent(n.route);
   if (hasFather(parent)) {
-    keys.push_back(n.route);
     nodes[n.route] = n;
+    /*nodes[parent].peso += n.peso;*/
     nodes[parent].childs.push_back(n.route);
   }
 }
+
+void Tree::addKey(string path) { keys.push_back(path); }
 
 void Tree::printKeys() {
   for (auto i : keys) {
@@ -49,22 +51,21 @@ void Tree::printChilds(string key) {
     cout << i << endl;
   }
 }
-
 node Tree::getNode(string key) { return nodes[key]; }
 
 node *Tree::getAddressToNode(string key) { return &nodes[key]; }
 
-void Tree::auxiliarPreorden(node *raiz, list<string> &ans) {
+void Tree::auxiliarPreorden(node *raiz, list<node> &ans) {
   if (!raiz)
     return;
-  ans.push_back(raiz->route);
+  ans.push_back(*raiz);
   for (auto child : raiz->childs) {
     auxiliarPreorden(getAddressToNode(child), ans);
   }
 }
 
-list<string> Tree::preorden(string ruta) {
-  list<string> ans;
+list<node> Tree::preorden(string ruta) {
+  list<node> ans;
   node *root = &nodes[ruta];
   if (!root)
     return ans;
@@ -102,4 +103,22 @@ list<node> Tree::busquedaPorExtension(string extension) {
       resultados.push_back(nodes[archivo]);
   }
   return resultados;
+}
+
+void Tree::cargarPesoDeCarpetas() {
+  for (string key : keys) {
+    if (esCarpeta(key)) {
+      for (string hijo : nodes[key].childs) {
+        nodes[key].peso += nodes[hijo].peso;
+      }
+    }
+  }
+}
+
+bool Tree::existeKey(string path) {
+  for (string key : keys) {
+    if (key == path)
+      return true;
+  }
+  return false;
 }

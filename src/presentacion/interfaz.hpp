@@ -23,9 +23,7 @@ public:
   void inputIncorrecto();
   int Menu(vector<string> opciones, string titulo);
   void errorPersonalizado(string mensaje);
-  void printStringList(list<string> elements);
-  void auxiliarPreorden(node *raiz, list<string> &ans, Tree t);
-  list<string> preorden(node *root, Tree *t);
+  void printStringList(list<node> elements);
   void printArchivo(node n);
   void printBusqueda(list<node> elementos);
   void printSeparador();

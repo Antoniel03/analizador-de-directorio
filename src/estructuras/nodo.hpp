@@ -11,6 +11,7 @@ using std::string;
 struct node {
   string name;
   string route;
+  int peso = 0;
   int level = 0;
   list<string> childs;
 };

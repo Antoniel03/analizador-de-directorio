@@ -17,15 +17,6 @@ using std::vector;
 #define RESET "\x1b[0m"
 #define GREEN "\x1B[32m"
 
-/*vector<string> opcionesMenu{"Establecer directorio.", "Salir."};*/
-/**/
-/*vector<string> opcionesMenu2{*/
-/*    "Busqueda de archivo por nombre.",*/
-/*    "Busqueda de archivo por tipo.",*/
-/*    "Generar HTML.",*/
-/*    "Volver.",*/
-/*};*/
-
 void Interfaz::pause() {
   cout << "\nPresione enter para continuar.";
   getchar();
@@ -111,19 +102,17 @@ void Interfaz::printArchivo(node n) {
     cout << GREEN;
     cout << archivoFormateado;
     cout << RESET;
+    cout << " " << YELLOW << n.peso << " Bytes" << RESET;
   } else {
-    int peso = getPeso(n.route);
-    cout << archivoFormateado << YELLOW << " " << peso << " Bytes" << RESET;
+    /*int peso = getPeso(n.route);*/
+    cout << archivoFormateado << YELLOW << " " << n.peso << " Bytes" << RESET;
   }
   cout << endl;
 }
 
-void Interfaz::printStringList(list<string> elements) {
-  for (string i : elements) {
-    node n = createNode(i);
-    if (existeDirectorio(i)) {
-      printArchivo(n);
-    }
+void Interfaz::printStringList(list<node> elements) {
+  for (node i : elements) {
+    printArchivo(i);
   }
 }
 

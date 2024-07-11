@@ -54,7 +54,7 @@ void menuDirectorio(Interfaz *i, string ruta) {
     system("clear");
     switch (opt) {
     case 1: {
-      list<string> recorrido = directorio.preorden(ruta);
+      list<node> recorrido = directorio.preorden(ruta);
       i->printStringList(recorrido);
       i->pause();
       break;

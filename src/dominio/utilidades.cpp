@@ -5,12 +5,14 @@
 #include <iostream>
 #include <list>
 #include <vector>
+#include <stack>
 
 using std::cout;
 using std::endl;
 using std::list;
 using std::string;
 using std::vector;
+using std::stack;
 
 int getPeso(string ruta) {
   string rutaWin = invertirFormato(ruta);
@@ -121,14 +123,12 @@ Tree getArbolDeRuta(string pathToDirectory) {
   for (const auto &entry : std::filesystem::recursive_directory_iterator(p)) {
     string entrada = entry.path().string();
 
-    //string path = formatearRuta(entrada);    
-    //cout<<path<<endl;
     t.agregarArchivo(entrada);
     if (entrada != pathToDirectory){
       t.agregarKey(entrada);
     }
   }
-  t.cargarPesoDeCarpetas();
+  //t.cargarPesoDeCarpetas();
   return t;
 }
 
@@ -170,10 +170,10 @@ string formatearRuta(string ruta){
   return resultado;
 }
 
-
 string invertirFormato(string ruta){
   vector<string> rutaSegmentada= split(ruta, '/');
   int size = rutaSegmentada.size();
   string resultado= unirVectorStrings(rutaSegmentada, '\\', size);
   return resultado;
 }
+

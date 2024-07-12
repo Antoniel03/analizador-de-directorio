@@ -16,6 +16,7 @@ class Tree {
 private:
   map<string, archivo> archivos;
   list<string> keys;
+  string raiz;
 
 public:
   Tree();
@@ -34,5 +35,8 @@ public:
   void agregarKey(string path);
   void cargarPesoDeCarpetas();
   bool existeKey(string path);
+  string getRaiz();
+  void distribuirPeso(string ruta,int peso);
+  list<archivo> postorder(string root);
 };
 #endif // !ARBOL

@@ -18,8 +18,6 @@ int main() {
   Tree t = getArbolDeRuta("C:\\Users\\Antoniel\\Documents\\UNEG");
   Interfaz i;
 
-  //cout << "----" << endl;
-  t.printKeys();
   list<archivo> test = t.preorden("C:\\Users\\Antoniel\\Documents\\UNEG");
   i.printStringList(test);
 

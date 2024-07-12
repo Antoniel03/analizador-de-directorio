@@ -5,25 +5,31 @@
 #include <iostream>
 #include <list>
 #include <vector>
+#include <stack>
 
 using std::cout;
 using std::endl;
 using std::list;
 using std::string;
+using std::stack;
 
 Tree::Tree() {}
 
 Tree::Tree(string root) {
   archivo n = crearNodoArchivo(root);
   archivos[root] = n;
+  raiz=root;
   keys.push_back(n.route);
 }
+
+string Tree::getRaiz(){return raiz;}
 
 void Tree::agregarArchivo(string path) {
   archivo n = crearNodoArchivo(path);
   string parent = getPadre(n.route);
   if (tienePadre(parent)) {
     archivos[n.route] = n;
+    distribuirPeso(n.route, n.peso);
     /*archivos[parent].peso += n.peso;*/
     archivos[parent].childs.push_back(n.route);
   }
@@ -123,4 +129,41 @@ bool Tree::existeKey(string path) {
       return true;
   }
   return false;
+}
+
+list<archivo> Tree::postorder(string root)
+{
+  list<archivo> resultado;
+  stack<archivo *> nodosVisitados;
+
+  nodosVisitados.push(&archivos[root]);
+
+  while (!nodosVisitados.empty())
+  {
+    archivo *nodo = nodosVisitados.top();
+    nodosVisitados.pop();
+
+    if (nodo == NULL)
+      continue;
+
+    for (string child : nodo->childs)
+    {
+      nodosVisitados.push(&archivos[child]);
+    }
+
+    resultado.push_back(archivos[nodo->name]);
+    cout<<"added: "<<nodo->name<<endl;
+  }
+  return resultado;
+}
+
+void Tree::distribuirPeso(string ruta, int peso){
+  int size= split(ruta,'\\').size();
+  if(size==1)
+    return;
+  else{ 
+   string padre = getPadre(ruta);
+    archivos[padre].peso+=peso;
+   distribuirPeso(padre, peso);
+  }
 }

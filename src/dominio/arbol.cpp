@@ -14,93 +14,93 @@ using std::string;
 Tree::Tree() {}
 
 Tree::Tree(string root) {
-  node n = createNode(root);
-  nodes[root] = n;
+  archivo n = crearNodoArchivo(root);
+  archivos[root] = n;
   keys.push_back(n.route);
 }
 
-void Tree::addNode(string path) {
-  node n = createNode(path);
-  string parent = getParent(n.route);
-  if (hasFather(parent)) {
-    nodes[n.route] = n;
-    /*nodes[parent].peso += n.peso;*/
-    nodes[parent].childs.push_back(n.route);
+void Tree::agregarArchivo(string path) {
+  archivo n = crearNodoArchivo(path);
+  string parent = getPadre(n.route);
+  if (tienePadre(parent)) {
+    archivos[n.route] = n;
+    /*archivos[parent].peso += n.peso;*/
+    archivos[parent].childs.push_back(n.route);
   }
 }
 
-void Tree::addKey(string path) { keys.push_back(path); }
+void Tree::agregarKey(string path) { keys.push_back(path); }
 
 void Tree::printKeys() {
   for (auto i : keys) {
-    node n = nodes[i];
+    archivo n = archivos[i];
     levelPrint(n);
   }
 }
 
-bool Tree::hasFather(string path) {
-  if (nodes.find(path) != nodes.end())
+bool Tree::tienePadre(string path) {
+  if (archivos.find(path) != archivos.end())
     return true;
   return false;
 }
 
 void Tree::printChilds(string key) {
-  list<string> childs = nodes[key].childs;
+  list<string> childs = archivos[key].childs;
   cout << "Elements in -> " << key << endl;
   for (auto i : childs) {
     cout << i << endl;
   }
 }
-node Tree::getNode(string key) { return nodes[key]; }
+archivo Tree::getArchivo(string key) { return archivos[key]; }
 
-node *Tree::getAddressToNode(string key) { return &nodes[key]; }
+archivo *Tree::getPunteroArchivo(string key) { return &archivos[key]; }
 
-void Tree::auxiliarPreorden(node *raiz, list<node> &ans) {
+void Tree::auxiliarPreorden(archivo *raiz, list<archivo> &ans) {
   if (!raiz)
     return;
   ans.push_back(*raiz);
   for (auto child : raiz->childs) {
-    auxiliarPreorden(getAddressToNode(child), ans);
+    auxiliarPreorden(getPunteroArchivo(child), ans);
   }
 }
 
-list<node> Tree::preorden(string ruta) {
-  list<node> ans;
-  node *root = &nodes[ruta];
+list<archivo> Tree::preorden(string ruta) {
+  list<archivo> ans;
+  archivo *root = &archivos[ruta];
   if (!root)
     return ans;
   auxiliarPreorden(root, ans);
   return ans;
 }
 
-list<node> Tree::keySimilares(string key) {
-  list<node> resultados;
+list<archivo> Tree::keySimilares(string key) {
+  list<archivo> resultados;
 
   for (string ruta : keys) {
     if (contieneSubstring(ruta, key))
-      if (key != nodes[ruta].name)
-        resultados.push_back(nodes[ruta]);
+      if (key != archivos[ruta].name)
+        resultados.push_back(archivos[ruta]);
   }
   return resultados;
 }
 
-list<node> Tree::busquedaPorNombre(string objetivo) {
-  list<node> resultado;
+list<archivo> Tree::busquedaPorNombre(string objetivo) {
+  list<archivo> resultado;
   for (string archivo : keys) {
-    string nombre = nodes[archivo].name;
+    string nombre = archivos[archivo].name;
     if (nombre == objetivo) {
-      resultado.push_back(nodes[archivo]);
+      resultado.push_back(archivos[archivo]);
     }
   }
   return resultado;
 }
 
-list<node> Tree::busquedaPorExtension(string extension) {
-  list<node> resultados;
+list<archivo> Tree::busquedaPorExtension(string extension) {
+  list<archivo> resultados;
   for (string archivo : keys) {
     std::filesystem::path rutaArchivo{archivo};
     if ("." + extension == rutaArchivo.extension())
-      resultados.push_back(nodes[archivo]);
+      resultados.push_back(archivos[archivo]);
   }
   return resultados;
 }
@@ -108,8 +108,8 @@ list<node> Tree::busquedaPorExtension(string extension) {
 void Tree::cargarPesoDeCarpetas() {
   for (string key : keys) {
     if (esCarpeta(key)) {
-      for (string hijo : nodes[key].childs) {
-        nodes[key].peso += nodes[hijo].peso;
+      for (string hijo : archivos[key].childs) {
+        archivos[key].peso += archivos[hijo].peso;
       }
     }
   }

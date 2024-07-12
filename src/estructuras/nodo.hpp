@@ -8,7 +8,7 @@ using std::string;
 #ifndef NODO
 #define NODO
 
-struct node {
+struct archivo {
   string name;
   string route;
   int peso = 0;

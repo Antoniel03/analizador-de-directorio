@@ -29,7 +29,7 @@ bool esCarpeta(string ruta) {
   return false;
 }
 
-string getRepeatedString(char c, int i) {
+string getStringRepetido(char c, int i) {
   string result;
   for (int j = 0; j < i; j++) {
     result += c;
@@ -39,8 +39,8 @@ string getRepeatedString(char c, int i) {
   }
   return result;
 }
-void levelPrint(node n) {
-  string identated = getRepeatedString(' ', n.level) + n.route;
+void levelPrint(archivo n) {
+  string identated = getStringRepetido(' ', n.level) + n.route;
   cout << identated << endl;
 }
 
@@ -61,7 +61,7 @@ vector<string> split(string texto, char caracter) {
   return resultado;
 }
 
-string joinVectorStrings(vector<string> segmentedText, char separator,
+string unirVectorStrings(vector<string> segmentedText, char separator,
                          int partsToJoin) {
   string result;
   int size = segmentedText.size();
@@ -73,10 +73,10 @@ string joinVectorStrings(vector<string> segmentedText, char separator,
   return result;
 }
 
-node createNode(string path) {
+archivo crearNodoArchivo(string path) {
   vector<string> segmentedPath = split(path, '/');
   int size = segmentedPath.size();
-  node n;
+  archivo n;
   n.name = segmentedPath[size - 1];
   n.route = path;
   n.level = size;
@@ -86,19 +86,19 @@ node createNode(string path) {
   return n;
 }
 
-list<node> getEmptyList() {
-  list<node> l;
+list<archivo> getEmptyList() {
+  list<archivo> l;
   return l;
 }
 
-string getParent(string path) {
+string getPadre(string path) {
   vector<string> segmentedPath = split(path, '/');
   int size = segmentedPath.size();
-  string parent = joinVectorStrings(segmentedPath, '/', size - 1);
+  string parent = unirVectorStrings(segmentedPath, '/', size - 1);
   return parent;
 }
 
-void printDirectory(string pathToDirectory) {
+void printDirectorio(string pathToDirectory) {
   std::filesystem::path p = pathToDirectory;
 
   for (const auto &entry : std::filesystem::recursive_directory_iterator(p)) {
@@ -110,15 +110,15 @@ void printDirectory(string pathToDirectory) {
   }
 }
 
-Tree getTreeFromPath(string pathToDirectory) {
+Tree getArbolDeRuta(string pathToDirectory) {
   std::filesystem::path p = pathToDirectory;
   Tree t{pathToDirectory};
 
   for (const auto &entry : std::filesystem::recursive_directory_iterator(p)) {
     string path = entry.path();
-    t.addNode(path);
+    t.agregarArchivo(path);
     if (path != pathToDirectory)
-      t.addKey(path);
+      t.agregarKey(path);
   }
   t.cargarPesoDeCarpetas();
   return t;

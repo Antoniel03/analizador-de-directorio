@@ -12,22 +12,23 @@ using std::vector;
 #ifndef UTILIDADES
 #define UTILIDADES
 
-string getRepeatedString(char c, int i);
+string getStringRepetido(char c, int i);
 
-void levelPrint(node n);
+void levelPrint(archivo n);
 
 vector<string> split(string texto, char caracter);
 
-string joinVectorStrings(vector<string> segmentedText, char separator,
+string unirVectorStrings(vector<string> segmentedText, char separator,
                          int partsToJoin);
-node createNode(string path);
-list<node> getEmptyList();
+archivo crearNodoArchivo(string path);
 
-string getParent(string path);
+list<archivo> getListaVacia();
 
-void printDirectory(string pathToDirectory);
+string getPadre(string path);
 
-Tree getTreeFromPath(string pathToDirectory);
+void printDirectorio(string pathToDirectory);
+
+Tree getArbolDeRuta(string pathToDirectory);
 
 void printRawDirectory(string pathToDirectory);
 

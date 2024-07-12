@@ -48,13 +48,13 @@ void menuPrincipal(Interfaz *i) {
 
 void menuDirectorio(Interfaz *i, string ruta) {
   int opt = 0;
-  Tree directorio = getTreeFromPath(ruta);
+  Tree directorio = getArbolDeRuta(ruta);
   while (opt != 5) {
     opt = i->Menu(opcionesMenu2, "DIRECTORIO: " + ruta);
     system("clear");
     switch (opt) {
     case 1: {
-      list<node> recorrido = directorio.preorden(ruta);
+      list<archivo> recorrido = directorio.preorden(ruta);
       i->printStringList(recorrido);
       i->pause();
       break;
@@ -62,8 +62,8 @@ void menuDirectorio(Interfaz *i, string ruta) {
     case 2: {
       i->printTitulo("BUSQUEDA POR NOMBRE");
       string nombre = i->getText("Ingrese el nombre del archivo a buscar");
-      list<node> resultados = directorio.busquedaPorNombre(nombre);
-      list<node> resultadosSimilares = directorio.keySimilares(nombre);
+      list<archivo> resultados = directorio.busquedaPorNombre(nombre);
+      list<archivo> resultadosSimilares = directorio.keySimilares(nombre);
       cout << endl;
       i->printBusqueda(resultados);
       i->printColorString(
@@ -77,7 +77,7 @@ void menuDirectorio(Interfaz *i, string ruta) {
     case 3: {
       i->printTitulo("BUSQUEDA POR EXTENSION");
       string nombre = i->getText("Escriba la extension");
-      list<node> resultados = directorio.busquedaPorExtension(nombre);
+      list<archivo> resultados = directorio.busquedaPorExtension(nombre);
       cout << endl;
       i->printBusqueda(resultados);
       i->pause();

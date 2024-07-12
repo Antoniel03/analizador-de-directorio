@@ -14,24 +14,24 @@ using std::string;
 
 class Tree {
 private:
-  map<string, node> nodes;
+  map<string, archivo> archivos;
   list<string> keys;
 
 public:
   Tree();
   Tree(string path);
-  void addNode(string path);
+  void agregarArchivo(string path);
   void printKeys(); // Remover
-  bool hasFather(string path);
-  void printChilds(string key);
-  node getNode(string key);
-  node *getAddressToNode(string key);
-  list<node> preorden(string ruta);
-  void auxiliarPreorden(node *raiz, list<node> &ans);
-  list<node> busquedaPorNombre(string objetivo);
-  list<node> keySimilares(string key);
-  list<node> busquedaPorExtension(string extension);
-  void addKey(string path);
+  bool tienePadre(string path);
+  void printChilds(string key); // Remover
+  archivo getArchivo(string key);
+  archivo *getPunteroArchivo(string key);
+  list<archivo> preorden(string ruta);
+  void auxiliarPreorden(archivo *raiz, list<archivo> &ans);
+  list<archivo> busquedaPorNombre(string objetivo);
+  list<archivo> keySimilares(string key);
+  list<archivo> busquedaPorExtension(string extension);
+  void agregarKey(string path);
   void cargarPesoDeCarpetas();
   bool existeKey(string path);
 };

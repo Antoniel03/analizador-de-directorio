@@ -96,8 +96,8 @@ int Interfaz::Menu(vector<string> opciones, string titulo) {
   return seleccion;
 }
 
-void Interfaz::printArchivo(node n) {
-  string archivoFormateado = getRepeatedString(' ', n.level) + n.route;
+void Interfaz::printArchivo(archivo n) {
+  string archivoFormateado = getStringRepetido(' ', n.level) + n.route;
   if (esCarpeta(n.route)) {
     cout << GREEN;
     cout << archivoFormateado;
@@ -110,14 +110,14 @@ void Interfaz::printArchivo(node n) {
   cout << endl;
 }
 
-void Interfaz::printStringList(list<node> elements) {
-  for (node i : elements) {
+void Interfaz::printStringList(list<archivo> elements) {
+  for (archivo i : elements) {
     printArchivo(i);
   }
 }
 
-void Interfaz::printBusqueda(list<node> elementos) {
-  for (node n : elementos) {
+void Interfaz::printBusqueda(list<archivo> elementos) {
+  for (archivo n : elementos) {
     cout << GREEN << n.name << RESET << " --> " << n.route << endl;
   }
 }

@@ -97,10 +97,12 @@ list<archivo> Tree::busquedaPorNombre(string objetivo) {
 
 list<archivo> Tree::busquedaPorExtension(string extension) {
   list<archivo> resultados;
-  for (string archivo : keys) {
-    std::filesystem::path rutaArchivo{archivo};
+  for (string elemento : keys) {
+    string formatoWin= invertirFormato(elemento);
+    std::filesystem::path rutaArchivo{formatoWin};
+    cout<<formatoWin<<endl;
     if ("." + extension == rutaArchivo.extension())
-      resultados.push_back(archivos[archivo]);
+      resultados.push_back(archivos[elemento]);
   }
   return resultados;
 }

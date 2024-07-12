@@ -15,11 +15,12 @@ using std::string;
 using std::vector;
 
 int main() {
-  Tree t = getTreeFromPath("..");
+  Tree t = getArbolDeRuta("C:\\Users\\Antoniel\\Documents\\UNEG");
   Interfaz i;
 
-  list<node> test = t.preorden("..");
+  //cout << "----" << endl;
+  t.printKeys();
+  list<archivo> test = t.preorden("C:\\Users\\Antoniel\\Documents\\UNEG");
   i.printStringList(test);
 
-  cout << "----" << endl;
 }

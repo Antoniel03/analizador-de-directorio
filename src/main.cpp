@@ -27,6 +27,7 @@ void menuDirectorio(Interfaz *i, string ruta);
 
 int main() {
   Interfaz interfaz;
+  system("cls");
   menuPrincipal(&interfaz);
 }
 
@@ -35,23 +36,25 @@ void menuPrincipal(Interfaz *i) {
   while (opt != 2) {
     opt = i->Menu(opcionesMenu, "ANALIZADOR DE DIRECTORIOS");
     if (opt == 1) {
-      system("clear");
+      system("cls");
       string ruta = i->getText("Ingrese la ruta del directorio");
+      string rutaWin = invertirFormato(ruta);
       if (existeDirectorio(ruta))
-        menuDirectorio(i, ruta);
+        menuDirectorio(i, rutaWin);
       else
         i->errorPersonalizado("No se ha encontrado el directorio.");
     }
-    system("clear");
+    system("cls");
   }
 }
 
 void menuDirectorio(Interfaz *i, string ruta) {
   int opt = 0;
+  string rutaFormateada=formatearRuta(ruta);
   Tree directorio = getArbolDeRuta(ruta);
   while (opt != 5) {
-    opt = i->Menu(opcionesMenu2, "DIRECTORIO: " + ruta);
-    system("clear");
+    opt = i->Menu(opcionesMenu2, "DIRECTORIO: " + rutaFormateada);
+    system("cls");
     switch (opt) {
     case 1: {
       list<archivo> recorrido = directorio.preorden(ruta);
@@ -92,6 +95,6 @@ void menuDirectorio(Interfaz *i, string ruta) {
       break;
     }
     }
-    system("clear");
+    system("cls");
   }
 }

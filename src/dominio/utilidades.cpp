@@ -1,5 +1,6 @@
 #include "../dominio/headers/arbol.hpp"
 #include "../estructuras/nodo.hpp"
+#include "headers/utilidades.hpp"
 #include <filesystem>
 #include <iostream>
 #include <list>
@@ -12,19 +13,20 @@ using std::string;
 using std::vector;
 
 int getPeso(string ruta) {
-  std::filesystem::path archivo(ruta);
+  string rutaWin = invertirFormato(ruta);
+  std::filesystem::path elemento(rutaWin);
   int peso;
   try {
-    peso = std::filesystem::file_size(archivo);
+    peso = std::filesystem::file_size(elemento);
   } catch (const std::filesystem::filesystem_error &e) {
     std::cerr << "Error: " << e.what() << std::endl;
   }
   return peso;
 }
 
-bool esCarpeta(string ruta) {
-  std::filesystem::path archivo(ruta);
-  if (std::filesystem::is_directory(archivo))
+bool esCarpeta(string ruta) { 
+  std::filesystem::path elemento(ruta);
+  if (std::filesystem::is_directory(elemento))
     return true;
   return false;
 }
@@ -74,10 +76,11 @@ string unirVectorStrings(vector<string> segmentedText, char separator,
 }
 
 archivo crearNodoArchivo(string path) {
-  vector<string> segmentedPath = split(path, '/');
+  vector<string> segmentedPath = split(path, '\\');
   int size = segmentedPath.size();
   archivo n;
   n.name = segmentedPath[size - 1];
+  //cout<<n.name<<endl;
   n.route = path;
   n.level = size;
   if (!esCarpeta(path)) {
@@ -92,9 +95,9 @@ list<archivo> getEmptyList() {
 }
 
 string getPadre(string path) {
-  vector<string> segmentedPath = split(path, '/');
+  vector<string> segmentedPath = split(path, '\\');
   int size = segmentedPath.size();
-  string parent = unirVectorStrings(segmentedPath, '/', size - 1);
+  string parent = unirVectorStrings(segmentedPath, '\\', size - 1);
   return parent;
 }
 
@@ -102,8 +105,8 @@ void printDirectorio(string pathToDirectory) {
   std::filesystem::path p = pathToDirectory;
 
   for (const auto &entry : std::filesystem::recursive_directory_iterator(p)) {
-    string path = entry.path();
-    vector<string> segmentedPath = split(path, '/');
+    string path = entry.path().string();
+    vector<string> segmentedPath = split(path, '\\');
     int size = segmentedPath.size();
     string filename = segmentedPath[size - 1];
     cout << filename << " - " << path << endl;
@@ -112,13 +115,18 @@ void printDirectorio(string pathToDirectory) {
 
 Tree getArbolDeRuta(string pathToDirectory) {
   std::filesystem::path p = pathToDirectory;
+  //string rutaFormateada = formatearRuta(p.string());
   Tree t{pathToDirectory};
 
   for (const auto &entry : std::filesystem::recursive_directory_iterator(p)) {
-    string path = entry.path();
-    t.agregarArchivo(path);
-    if (path != pathToDirectory)
-      t.agregarKey(path);
+    string entrada = entry.path().string();
+
+    //string path = formatearRuta(entrada);    
+    //cout<<path<<endl;
+    t.agregarArchivo(entrada);
+    if (entrada != pathToDirectory){
+      t.agregarKey(entrada);
+    }
   }
   t.cargarPesoDeCarpetas();
   return t;
@@ -153,4 +161,19 @@ bool contieneSubstring(string texto, string caracteres) {
   }
 
   return false;
+}
+
+string formatearRuta(string ruta){
+  vector<string> rutaSegmentada= split(ruta, '\\');
+  int size = rutaSegmentada.size();
+  string resultado= unirVectorStrings(rutaSegmentada, '/', size);
+  return resultado;
+}
+
+
+string invertirFormato(string ruta){
+  vector<string> rutaSegmentada= split(ruta, '/');
+  int size = rutaSegmentada.size();
+  string resultado= unirVectorStrings(rutaSegmentada, '\\', size);
+  return resultado;
 }

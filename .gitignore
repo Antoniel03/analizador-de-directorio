@@ -2,3 +2,6 @@ LICENSE
 *.out
 token
 test
+.vscode
+test.exe
+main.exe

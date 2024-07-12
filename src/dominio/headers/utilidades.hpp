@@ -40,4 +40,7 @@ bool existeDirectorio(string ruta);
 
 bool contieneSubstring(string texto, string caracteres);
 
+string formatearRuta(string ruta);
+string invertirFormato(string ruta);
+
 #endif // UTILIDADES

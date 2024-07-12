@@ -91,7 +91,7 @@ int Interfaz::Menu(vector<string> opciones, string titulo) {
       break;
     else
       inputIncorrecto();
-    system("clear");
+    system("cls");
   }
   return seleccion;
 }

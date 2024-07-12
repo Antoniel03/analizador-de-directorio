@@ -6,7 +6,7 @@ Visualizador y buscador de elementos en un directorio.
 1. Clonar el repositorio
 
 ```sh
-git https://github.com/Antoniel03/analizador-de-directorio.git
+git clone https://github.com/Antoniel03/analizador-de-directorio.git
 ```
 1. Estando en el directorio del repositorio, cambiar al directorio `build`.
 

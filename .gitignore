@@ -5,3 +5,4 @@ test
 .vscode
 test.exe
 main.exe
+*.html

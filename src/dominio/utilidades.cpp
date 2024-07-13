@@ -103,6 +103,11 @@ string getPadre(string path) {
   return parent;
 }
 
+bool esPadre(string padre, string hijo){
+  if(getPadre(hijo)==padre) return true;
+  return false;
+}
+
 void printDirectorio(string pathToDirectory) {
   std::filesystem::path p = pathToDirectory;
 
@@ -177,3 +182,8 @@ string invertirFormato(string ruta){
   return resultado;
 }
 
+string getNombreArchivo(string ruta){
+  vector<string> rutaSegmentada = split(ruta, '\\');
+  int size = rutaSegmentada.size();
+  return rutaSegmentada[size-1];
+}

@@ -1,5 +1,5 @@
 run:
-	@g++ ../testing/test.cpp ../src/dominio/arbol.cpp ../src/dominio/utilidades.cpp ../src/presentacion/interfaz.cpp -o test
+	@g++ ../testing/test.cpp ../src/dominio/arbol.cpp ../src/dominio/utilidades.cpp ../src/presentacion/interfaz.cpp ../src/datos/manejadorHTML.cpp -o test
 	@./test.exe
 	@erase test.exe
 

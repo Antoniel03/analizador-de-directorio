@@ -1,6 +1,7 @@
 #include "../src/dominio/headers/arbol.hpp"
 #include "../src/dominio/headers/utilidades.hpp"
 #include "../src/presentacion/interfaz.hpp"
+#include "../src/datos/manejadorHTML.hpp"
 #include <iostream>
 
 #include <list>
@@ -14,11 +15,12 @@ using std::map;
 using std::string;
 using std::vector;
 
-int main() {
-  Tree t = getArbolDeRuta("C:\\Users\\Antoniel\\Documents\\UNEG");
+int main()
+{
+  Tree t = getArbolDeRuta("..");
   Interfaz i;
+  list<archivo> test = t.preorden("..");
+  manejadorHTML h{test};
 
-  list<archivo> test = t.preorden("C:\\Users\\Antoniel\\Documents\\UNEG");
-  i.printStringList(test);
-
+  h.armarCuerpoHTML();
 }

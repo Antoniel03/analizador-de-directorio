@@ -13,57 +13,57 @@ using std::list;
 using std::stack;
 using std::string;
 
-Tree::Tree() {}
+Arbol::Arbol() {}
 
-Tree::Tree(string root)
+Arbol::Arbol(string root)
 {
   archivo n = crearNodoArchivo(root);
   archivos[root] = n;
   raiz = root;
-  keys.push_back(n.route);
+  keys.push_back(n.ruta);
 }
 
-string Tree::getRaiz() { return raiz; }
+string Arbol::getRaiz() { return raiz; }
 
-void Tree::agregarArchivo(string path)
+void Arbol::agregarArchivo(string path)
 {
   archivo n = crearNodoArchivo(path);
-  string parent = getPadre(n.route);
+  string parent = getPadre(n.ruta);
   if (tienePadre(parent))
   {
-    archivos[n.route] = n;
-    distribuirPeso(n.route, n.peso);
-    if (!esCarpeta(n.route))
-      conteoElementos(n.route);
-    archivos[parent].childs.push_back(n.route);
+    archivos[n.ruta] = n;
+    distribuirPeso(n.ruta, n.peso);
+    if (!esCarpeta(n.ruta))
+      conteoElementos(n.ruta);
+    archivos[parent].hijos.push_back(n.ruta);
   }
 }
 
-void Tree::agregarKey(string path) { keys.push_back(path); }
+void Arbol::agregarKey(string path) { keys.push_back(path); }
 
-bool Tree::tienePadre(string path)
+bool Arbol::tienePadre(string path)
 {
   if (archivos.find(path) != archivos.end())
     return true;
   return false;
 }
 
-archivo Tree::getArchivo(string key) { return archivos[key]; }
+archivo Arbol::getArchivo(string key) { return archivos[key]; }
 
-archivo *Tree::getPunteroArchivo(string key) { return &archivos[key]; }
+archivo *Arbol::getPunteroArchivo(string key) { return &archivos[key]; }
 
-void Tree::auxiliarPreorden(archivo *raiz, list<archivo> &ans)
+void Arbol::auxiliarPreorden(archivo *raiz, list<archivo> &ans)
 {
   if (!raiz)
     return;
   ans.push_back(*raiz);
-  for (auto child : raiz->childs)
+  for (auto child : raiz->hijos)
   {
     auxiliarPreorden(getPunteroArchivo(child), ans);
   }
 }
 
-list<archivo> Tree::preorden(string ruta)
+list<archivo> Arbol::preorden(string ruta)
 {
   list<archivo> ans;
   archivo *root = &archivos[ruta];
@@ -74,25 +74,25 @@ list<archivo> Tree::preorden(string ruta)
 }
 
 // Retorna una lista de resultados que contienen el substring proporcionado
-list<archivo> Tree::keySimilares(string key)
+list<archivo> Arbol::keySimilares(string key)
 {
   list<archivo> resultados;
 
   for (string ruta : keys)
   {
     if (contieneSubstring(ruta, key))
-      if (key != archivos[ruta].name)
+      if (key != archivos[ruta].nombre)
         resultados.push_back(archivos[ruta]);
   }
   return resultados;
 }
 
-list<archivo> Tree::busquedaPorNombre(string objetivo)
+list<archivo> Arbol::busquedaPorNombre(string objetivo)
 {
   list<archivo> resultado;
   for (string archivo : keys)
   {
-    string nombre = archivos[archivo].name;
+    string nombre = archivos[archivo].nombre;
     if (nombre == objetivo)
     {
       resultado.push_back(archivos[archivo]);
@@ -101,7 +101,7 @@ list<archivo> Tree::busquedaPorNombre(string objetivo)
   return resultado;
 }
 
-list<archivo> Tree::busquedaPorExtension(string extension)
+list<archivo> Arbol::busquedaPorExtension(string extension)
 {
   list<archivo> resultados;
   for (string elemento : keys)
@@ -114,7 +114,7 @@ list<archivo> Tree::busquedaPorExtension(string extension)
   return resultados;
 }
 
-bool Tree::existeKey(string path)
+bool Arbol::existeKey(string path)
 {
   for (string key : keys)
   {
@@ -126,7 +126,7 @@ bool Tree::existeKey(string path)
 
 // Agrega el tamaño al archivo dado y a
 //  las carpetas contenedoras de forma recursiva
-void Tree::distribuirPeso(string ruta, int peso)
+void Arbol::distribuirPeso(string ruta, int peso)
 {
   int size = split(ruta, '\\').size();
   if (size == 1)
@@ -141,7 +141,7 @@ void Tree::distribuirPeso(string ruta, int peso)
 
 // Incrementa la cantidad de elementos registrados en
 // las carpetas contenedoras de forma recursiva
-void Tree::conteoElementos(string ruta)
+void Arbol::conteoElementos(string ruta)
 {
   int size = split(ruta, '\\').size();
   if (size == 1)
@@ -158,7 +158,7 @@ void Tree::conteoElementos(string ruta)
 // De cada carpeta
 // Se accede al archivo del hashmap con la ruta de la carpeta
 
-map<string, archivo> Tree::getArchivosMasPesados()
+map<string, archivo> Arbol::getArchivosMasPesados()
 {
   map<string, archivo> resultado;
   for (string ruta : keys)
@@ -173,12 +173,12 @@ map<string, archivo> Tree::getArchivosMasPesados()
 
 // Realiza un recorrido preorden a partir de la ruta especificada
 // En busqueda del archivo más pesado de la misma
-archivo Tree::obtenerArchivoMasPesado(string ruta)
+archivo Arbol::obtenerArchivoMasPesado(string ruta)
 {
   if (archivos[ruta].subelementos == 0)
   {
     archivo np;
-    np.name = "No posee archivo";
+    np.nombre = "No posee archivo";
     return np;
   }
 
@@ -186,7 +186,7 @@ archivo Tree::obtenerArchivoMasPesado(string ruta)
   archivo masPesado;
   for (archivo subRuta : recorrido)
   {
-    if ((subRuta.peso > masPesado.peso) && (!esCarpeta(subRuta.route)))
+    if ((subRuta.peso > masPesado.peso) && (!esCarpeta(subRuta.ruta)))
     {
       masPesado = subRuta;
     }

@@ -12,7 +12,7 @@ using std::string;
 #ifndef ARBOL
 #define ARBOL
 
-class Tree
+class Arbol
 {
 private:
   map<string, archivo> archivos;
@@ -20,8 +20,8 @@ private:
   string raiz;
 
 public:
-  Tree();
-  Tree(string path);
+  Arbol();
+  Arbol(string path);
   void agregarArchivo(string path);
   bool tienePadre(string path);
   archivo getArchivo(string key);

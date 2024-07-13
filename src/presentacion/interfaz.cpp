@@ -112,8 +112,8 @@ int Interfaz::Menu(vector<string> opciones, string titulo)
 // Imprime un elemento de tipo archivo resaltando sus caracteristicas
 void Interfaz::printArchivo(archivo n)
 {
-  string archivoFormateado = getStringRepetido(' ', n.level) + n.route;
-  if (esCarpeta(n.route))
+  string archivoFormateado = getStringRepetido(' ', n.level) + n.ruta;
+  if (esCarpeta(n.ruta))
   {
     cout << GREEN;
     cout << archivoFormateado;
@@ -140,7 +140,7 @@ void Interfaz::printBusqueda(list<archivo> elementos)
 {
   for (archivo n : elementos)
   {
-    cout << GREEN << n.name << RESET << " --> " << n.route << endl;
+    cout << GREEN << n.nombre << RESET << " --> " << n.ruta << endl;
   }
 }
 

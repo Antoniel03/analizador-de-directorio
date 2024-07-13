@@ -17,7 +17,7 @@ using std::vector;
 
 int main()
 {
-  Tree t = getArbolDeRuta("..");
+  Arbol t = getArbolDeRuta("..");
   Interfaz i;
   list<archivo> test = t.preorden("..");
   map<string, archivo> test2 = t.getArchivosMasPesados();
@@ -26,6 +26,5 @@ int main()
     cout << i.first << endl;
   }
   manejadorHTML h{test, test2};
-  //  i.printStringList(test);
   h.generarHTML();
 }

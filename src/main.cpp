@@ -57,9 +57,10 @@ void menuPrincipal(Interfaz *i)
 
 void menuDirectorio(Interfaz *i, string ruta)
 {
+  system("cls");
   int opt = 0;
   string rutaFormateada = formatearRuta(ruta);
-  Tree directorio = getArbolDeRuta(ruta);
+  Arbol directorio = getArbolDeRuta(ruta);
   while (opt != 5)
   {
     opt = i->Menu(opcionesMenu2, "DIRECTORIO: " + rutaFormateada);

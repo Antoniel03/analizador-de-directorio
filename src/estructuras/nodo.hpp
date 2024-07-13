@@ -10,12 +10,12 @@ using std::string;
 
 struct archivo
 {
-  string name;
-  string route;
+  string nombre;
+  string ruta;
   int peso = 0;
   int level = 0;
   int subelementos = 0;
-  list<string> childs;
+  list<string> hijos;
 };
 
 #endif // !DEBUG

@@ -27,9 +27,9 @@ manejadorHTML::manejadorHTML(list<archivo> archivos, map<string, archivo> masPes
 string manejadorHTML::formatoCarpeta(archivo carpeta)
 {
   float espacioTotalp = calcularEspacioTotal(elementos.begin()->peso, carpeta.peso);
-  string nombre = getNombreArchivo(carpeta.name);
-  int masPesado = elementosMasPesados[carpeta.route].peso;
-  string masPesadoNombre = elementosMasPesados[carpeta.route].name;
+  string nombre = getNombreArchivo(carpeta.nombre);
+  int masPesado = elementosMasPesados[carpeta.ruta].peso;
+  string masPesadoNombre = elementosMasPesados[carpeta.ruta].nombre;
   string carpetaFormateada = "<li><span class=\"caret\">" + nombre + "</span>\n" + "<ul class=\"nested\">\n"
                                                                                    "<li>Numero de archivos: " +
                              std::to_string(carpeta.subelementos) + "</li>\n" +
@@ -48,7 +48,7 @@ string manejadorHTML::armarCuerpoHTML()
   int i = 0;
   for (archivo a : elementos)
   {
-    if ((esCarpeta(a.route)) && (a.route != elementos.begin()->route))
+    if ((esCarpeta(a.ruta)) && (a.ruta != elementos.begin()->ruta))
     {
       agregarCarpeta(a);
     }
@@ -62,7 +62,7 @@ string manejadorHTML::armarCuerpoHTML()
 void manejadorHTML::agregarRaiz()
 {
   archivo raiz = *elementos.begin();
-  string ruta = raiz.route;
+  string ruta = raiz.ruta;
   htmlSegmentado.push_back(formatoCarpeta(raiz));
   htmlSegmentado.push_back(crearComentario(ruta));
   htmlSegmentado.push_back("</ul>\n</li>\n");
@@ -74,12 +74,12 @@ void manejadorHTML::agregarCarpeta(archivo a)
   for (int i = 0; i < htmlSegmentado.size(); i++)
   {
     string ruta = getRutaDeComentario(htmlSegmentado[i]);
-    string padre = getPadre(a.route);
+    string padre = getPadre(a.ruta);
     if (ruta == padre)
     {
       string carpeta = formatoCarpeta(a);
       htmlSegmentado.insert(htmlSegmentado.begin() + i, "</ul>\n</li>\n");
-      htmlSegmentado.insert(htmlSegmentado.begin() + i, crearComentario(a.route));
+      htmlSegmentado.insert(htmlSegmentado.begin() + i, crearComentario(a.ruta));
       htmlSegmentado.insert(htmlSegmentado.begin() + i, carpeta);
       break;
     }

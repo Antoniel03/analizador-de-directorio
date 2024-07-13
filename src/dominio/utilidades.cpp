@@ -58,7 +58,7 @@ string getStringRepetido(char c, int i)
 // Imprime un elemento de tipo archivo emulando su identacion
 void levelPrint(archivo n)
 {
-  string identated = getStringRepetido(' ', n.level) + n.route;
+  string identated = getStringRepetido(' ', n.level) + n.ruta;
   cout << identated << endl;
 }
 
@@ -105,9 +105,9 @@ archivo crearNodoArchivo(string path)
   vector<string> segmentedPath = split(path, '\\');
   int size = segmentedPath.size();
   archivo n;
-  n.name = segmentedPath[size - 1];
+  n.nombre = segmentedPath[size - 1];
   // cout<<n.name<<endl;
-  n.route = path;
+  n.ruta = path;
   n.level = size;
   if (!esCarpeta(path))
   {
@@ -141,10 +141,10 @@ bool esPadre(string padre, string hijo)
 }
 
 // Retorna un arbol con todos los elementos de un directorio especificado y sus relaciones
-Tree getArbolDeRuta(string pathToDirectory)
+Arbol getArbolDeRuta(string pathToDirectory)
 {
   std::filesystem::path p = pathToDirectory;
-  Tree t{pathToDirectory};
+  Arbol t{pathToDirectory};
 
   for (const auto &entry : std::filesystem::recursive_directory_iterator(p))
   {

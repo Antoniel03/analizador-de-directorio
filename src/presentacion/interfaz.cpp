@@ -119,7 +119,6 @@ void Interfaz::printArchivo(archivo n)
     cout << archivoFormateado;
     cout << RESET;
     cout << " " << YELLOW << n.peso << " Bytes" << RESET;
-    cout << " n = " << n.subelementos;
   }
   else
   {

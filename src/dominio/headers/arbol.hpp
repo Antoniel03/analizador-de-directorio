@@ -22,8 +22,8 @@ private:
 public:
   Arbol();
   Arbol(string path);
-  void agregarArchivo(string path);
-  bool tienePadre(string path);
+  void agregarArchivo(string ruta);
+  bool tienePadre(string ruta);
   archivo getArchivo(string key);
   archivo *getPunteroArchivo(string key);
   list<archivo> preorden(string ruta);
@@ -31,9 +31,9 @@ public:
   list<archivo> busquedaPorNombre(string objetivo);
   list<archivo> keySimilares(string key);
   list<archivo> busquedaPorExtension(string extension);
-  void agregarKey(string path);
+  void agregarKey(string ruta);
   void cargarPesoDeCarpetas();
-  bool existeKey(string path);
+  bool existeKey(string ruta);
   string getRaiz();
   void distribuirPeso(string ruta, int peso);
   void conteoElementos(string ruta);

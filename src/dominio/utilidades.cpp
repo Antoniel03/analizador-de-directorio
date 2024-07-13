@@ -141,17 +141,17 @@ bool esPadre(string padre, string hijo)
 }
 
 // Retorna un arbol con todos los elementos de un directorio especificado y sus relaciones
-Arbol getArbolDeRuta(string pathToDirectory)
+Arbol getArbolDeRuta(string rutaAlDirectorio)
 {
-  std::filesystem::path p = pathToDirectory;
-  Arbol t{pathToDirectory};
+  std::filesystem::path p = rutaAlDirectorio;
+  Arbol t{rutaAlDirectorio};
 
   for (const auto &entry : std::filesystem::recursive_directory_iterator(p))
   {
     string entrada = entry.path().string();
 
     t.agregarArchivo(entrada);
-    if (entrada != pathToDirectory)
+    if (entrada != rutaAlDirectorio)
     {
       t.agregarKey(entrada);
     }
@@ -219,4 +219,15 @@ string getNombreArchivo(string ruta)
 float calcularEspacioTotal(int raiz, int carpeta)
 {
   return ((carpeta * 1.00) / (raiz * 1.00)) * 100;
+}
+
+vector<string> listaAVector(list<archivo> archivos)
+{
+  vector<string> resultado;
+  for (archivo i : archivos)
+  {
+    if (esCarpeta(i.ruta))
+      resultado.push_back(i.ruta);
+  }
+  return resultado;
 }

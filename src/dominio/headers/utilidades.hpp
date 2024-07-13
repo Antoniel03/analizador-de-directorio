@@ -26,7 +26,7 @@ list<archivo> getListaVacia();
 
 string getPadre(string path);
 
-Arbol getArbolDeRuta(string pathToDirectory);
+Arbol getArbolDeRuta(string rutaAlDirectorio);
 
 bool esCarpeta(string ruta);
 
@@ -45,5 +45,7 @@ string invertirFormato(string ruta);
 bool esPadre(string padre, string hijo);
 
 float calcularEspacioTotal(int raiz, int carpeta);
+
+vector<string> listaAVector(list<archivo> archivos);
 
 #endif // UTILIDADES

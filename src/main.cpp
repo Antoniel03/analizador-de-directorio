@@ -18,6 +18,7 @@ vector<string> opcionesMenu{"Establecer directorio.", "Salir."};
 
 vector<string> opcionesMenu2{
     "Ver directorio completo.",
+    "Ver Subcarpeta",
     "Busqueda de archivo por nombre.",
     "Busqueda de archivo por tipo.",
     "Generar HTML.",
@@ -27,6 +28,8 @@ vector<string> opcionesMenu2{
 void menuPrincipal(Interfaz *interfaz);
 
 void menuDirectorio(Interfaz *i, string ruta);
+
+void menuSubcarpeta(Interfaz *i, list<archivo> recorrido, Arbol *t);
 
 int main()
 {
@@ -61,7 +64,7 @@ void menuDirectorio(Interfaz *i, string ruta)
   int opt = 0;
   string rutaFormateada = formatearRuta(ruta);
   Arbol directorio = getArbolDeRuta(ruta);
-  while (opt != 5)
+  while (opt != 6)
   {
     opt = i->Menu(opcionesMenu2, "DIRECTORIO: " + rutaFormateada);
     system("cls");
@@ -75,6 +78,12 @@ void menuDirectorio(Interfaz *i, string ruta)
       break;
     }
     case 2:
+    {
+      menuSubcarpeta(i, directorio.preorden(ruta), &directorio);
+      break;
+    }
+
+    case 3:
     {
       i->printTitulo("BUSQUEDA POR NOMBRE");
       string nombre = i->getText("Ingrese el nombre del archivo a buscar");
@@ -90,7 +99,7 @@ void menuDirectorio(Interfaz *i, string ruta)
       i->pause();
       break;
     }
-    case 3:
+    case 4:
     {
       i->printTitulo("BUSQUEDA POR EXTENSION");
       string nombre = i->getText("Escriba la extension");
@@ -100,7 +109,7 @@ void menuDirectorio(Interfaz *i, string ruta)
       i->pause();
       break;
     }
-    case 4:
+    case 5:
     {
       i->printTitulo("GENERADO DE HTML");
       list<archivo> recorrido = directorio.preorden(directorio.getRaiz());
@@ -115,5 +124,29 @@ void menuDirectorio(Interfaz *i, string ruta)
     }
     }
     system("cls");
+  }
+}
+
+void menuSubcarpeta(Interfaz *i, list<archivo> recorrido, Arbol *t)
+{
+  vector<string> opcionesMenu3 = listaAVector(recorrido);
+  opcionesMenu3.push_back("Volver");
+  int opcion = 0;
+  while (opcion != opcionesMenu3.size())
+  {
+    system("cls");
+    opcion = i->Menu(opcionesMenu3, "VER CARPETA");
+
+    if (opcion != opcionesMenu3.size())
+    {
+      system("cls");
+      cout << opcionesMenu3[opcion - 1] << endl;
+      list<archivo> elementosSubcarpeta = t->preorden(opcionesMenu3[opcion - 1]);
+      i->printTitulo("SUBCARPETA: " + opcionesMenu3[opcion - 1]);
+      i->printStringList(elementosSubcarpeta);
+      i->pause();
+    }
+    else
+      break;
   }
 }

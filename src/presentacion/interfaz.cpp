@@ -109,6 +109,7 @@ int Interfaz::Menu(vector<string> opciones, string titulo)
   return seleccion;
 }
 
+// Imprime un elemento de tipo archivo resaltando sus caracteristicas
 void Interfaz::printArchivo(archivo n)
 {
   string archivoFormateado = getStringRepetido(' ', n.level) + n.route;
@@ -122,7 +123,6 @@ void Interfaz::printArchivo(archivo n)
   }
   else
   {
-    /*int peso = getPeso(n.route);*/
     cout << archivoFormateado << YELLOW << " " << n.peso << " Bytes" << RESET;
   }
   cout << endl;

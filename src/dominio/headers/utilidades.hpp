@@ -26,11 +26,7 @@ list<archivo> getListaVacia();
 
 string getPadre(string path);
 
-void printDirectorio(string pathToDirectory);
-
 Tree getArbolDeRuta(string pathToDirectory);
-
-void printRawDirectory(string pathToDirectory);
 
 bool esCarpeta(string ruta);
 

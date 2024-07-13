@@ -23,9 +23,7 @@ public:
   Tree();
   Tree(string path);
   void agregarArchivo(string path);
-  void printKeys(); // Remover
   bool tienePadre(string path);
-  void printChilds(string key); // Remover
   archivo getArchivo(string key);
   archivo *getPunteroArchivo(string key);
   list<archivo> preorden(string ruta);
@@ -38,7 +36,6 @@ public:
   bool existeKey(string path);
   string getRaiz();
   void distribuirPeso(string ruta, int peso);
-  list<archivo> postorder(string root);
   void conteoElementos(string ruta);
   map<string, archivo> getArchivosMasPesados();
   archivo obtenerArchivoMasPesado(string ruta);

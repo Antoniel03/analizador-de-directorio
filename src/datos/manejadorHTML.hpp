@@ -24,7 +24,6 @@ public:
   manejadorHTML(list<archivo> archivos, map<string, archivo> masPesados);
   string formatoCarpeta(archivo carpeta);
   string armarCuerpoHTML();
-  void armarHTML();
   string crearComentario(string comentario);
   string getRutaDeComentario(string comentario);
   bool esComentario(string linea);

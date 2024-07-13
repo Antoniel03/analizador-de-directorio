@@ -21,6 +21,10 @@ int main()
   Interfaz i;
   list<archivo> test = t.preorden("..");
   map<string, archivo> test2 = t.getArchivosMasPesados();
+  for (auto i : test2)
+  {
+    cout << i.first << endl;
+  }
   manejadorHTML h{test, test2};
   //  i.printStringList(test);
   h.generarHTML();

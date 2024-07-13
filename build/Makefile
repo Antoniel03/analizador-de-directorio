@@ -8,7 +8,9 @@ com:
 	@./test
 
 main:
-	@g++ ../src/main.cpp ../src/dominio/arbol.cpp ../src/dominio/utilidades.cpp ../src/presentacion/interfaz.cpp -o main
-	@./main
-	@rm main
+	@g++ ../src/main.cpp ../src/dominio/arbol.cpp ../src/dominio/utilidades.cpp ../src/presentacion/interfaz.cpp ../src/datos/manejadorHTML.cpp -o main
+	@./main.exe
+
+analizador:
+	@g++ ../src/main.cpp ../src/dominio/arbol.cpp ../src/dominio/utilidades.cpp ../src/presentacion/interfaz.cpp ../src/datos/manejadorHTML.cpp -o main
 

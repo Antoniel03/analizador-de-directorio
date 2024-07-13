@@ -48,4 +48,6 @@ string invertirFormato(string ruta);
 
 bool esPadre(string padre, string hijo);
 
+float calcularEspacioTotal(int raiz, int carpeta);
+
 #endif // UTILIDADES

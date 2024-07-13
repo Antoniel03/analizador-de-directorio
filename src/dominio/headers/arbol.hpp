@@ -12,7 +12,8 @@ using std::string;
 #ifndef ARBOL
 #define ARBOL
 
-class Tree {
+class Tree
+{
 private:
   map<string, archivo> archivos;
   list<string> keys;
@@ -36,7 +37,10 @@ public:
   void cargarPesoDeCarpetas();
   bool existeKey(string path);
   string getRaiz();
-  void distribuirPeso(string ruta,int peso);
+  void distribuirPeso(string ruta, int peso);
   list<archivo> postorder(string root);
+  void conteoElementos(string ruta);
+  map<string, archivo> getArchivosMasPesados();
+  archivo obtenerArchivoMasPesado(string ruta);
 };
 #endif // !ARBOL

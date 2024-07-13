@@ -8,11 +8,13 @@ using std::string;
 #ifndef NODO
 #define NODO
 
-struct archivo {
+struct archivo
+{
   string name;
   string route;
   int peso = 0;
   int level = 0;
+  int subelementos = 0;
   list<string> childs;
 };
 

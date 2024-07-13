@@ -20,7 +20,8 @@ int main()
   Tree t = getArbolDeRuta("..");
   Interfaz i;
   list<archivo> test = t.preorden("..");
-  manejadorHTML h{test};
-
-  h.armarCuerpoHTML();
+  map<string, archivo> test2 = t.getArchivosMasPesados();
+  manejadorHTML h{test, test2};
+  //  i.printStringList(test);
+  h.generarHTML();
 }

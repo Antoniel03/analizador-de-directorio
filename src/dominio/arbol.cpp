@@ -10,26 +10,31 @@
 using std::cout;
 using std::endl;
 using std::list;
-using std::string;
 using std::stack;
+using std::string;
 
 Tree::Tree() {}
 
-Tree::Tree(string root) {
+Tree::Tree(string root)
+{
   archivo n = crearNodoArchivo(root);
   archivos[root] = n;
-  raiz=root;
+  raiz = root;
   keys.push_back(n.route);
 }
 
-string Tree::getRaiz(){return raiz;}
+string Tree::getRaiz() { return raiz; }
 
-void Tree::agregarArchivo(string path) {
+void Tree::agregarArchivo(string path)
+{
   archivo n = crearNodoArchivo(path);
   string parent = getPadre(n.route);
-  if (tienePadre(parent)) {
+  if (tienePadre(parent))
+  {
     archivos[n.route] = n;
     distribuirPeso(n.route, n.peso);
+    if (!esCarpeta(n.route))
+      conteoElementos(n.route);
     /*archivos[parent].peso += n.peso;*/
     archivos[parent].childs.push_back(n.route);
   }
@@ -37,23 +42,28 @@ void Tree::agregarArchivo(string path) {
 
 void Tree::agregarKey(string path) { keys.push_back(path); }
 
-void Tree::printKeys() {
-  for (auto i : keys) {
+void Tree::printKeys()
+{
+  for (auto i : keys)
+  {
     archivo n = archivos[i];
     levelPrint(n);
   }
 }
 
-bool Tree::tienePadre(string path) {
+bool Tree::tienePadre(string path)
+{
   if (archivos.find(path) != archivos.end())
     return true;
   return false;
 }
 
-void Tree::printChilds(string key) {
+void Tree::printChilds(string key)
+{
   list<string> childs = archivos[key].childs;
   cout << "Elements in -> " << key << endl;
-  for (auto i : childs) {
+  for (auto i : childs)
+  {
     cout << i << endl;
   }
 }
@@ -61,16 +71,19 @@ archivo Tree::getArchivo(string key) { return archivos[key]; }
 
 archivo *Tree::getPunteroArchivo(string key) { return &archivos[key]; }
 
-void Tree::auxiliarPreorden(archivo *raiz, list<archivo> &ans) {
+void Tree::auxiliarPreorden(archivo *raiz, list<archivo> &ans)
+{
   if (!raiz)
     return;
   ans.push_back(*raiz);
-  for (auto child : raiz->childs) {
+  for (auto child : raiz->childs)
+  {
     auxiliarPreorden(getPunteroArchivo(child), ans);
   }
 }
 
-list<archivo> Tree::preorden(string ruta) {
+list<archivo> Tree::preorden(string ruta)
+{
   list<archivo> ans;
   archivo *root = &archivos[ruta];
   if (!root)
@@ -79,10 +92,12 @@ list<archivo> Tree::preorden(string ruta) {
   return ans;
 }
 
-list<archivo> Tree::keySimilares(string key) {
+list<archivo> Tree::keySimilares(string key)
+{
   list<archivo> resultados;
 
-  for (string ruta : keys) {
+  for (string ruta : keys)
+  {
     if (contieneSubstring(ruta, key))
       if (key != archivos[ruta].name)
         resultados.push_back(archivos[ruta]);
@@ -90,41 +105,52 @@ list<archivo> Tree::keySimilares(string key) {
   return resultados;
 }
 
-list<archivo> Tree::busquedaPorNombre(string objetivo) {
+list<archivo> Tree::busquedaPorNombre(string objetivo)
+{
   list<archivo> resultado;
-  for (string archivo : keys) {
+  for (string archivo : keys)
+  {
     string nombre = archivos[archivo].name;
-    if (nombre == objetivo) {
+    if (nombre == objetivo)
+    {
       resultado.push_back(archivos[archivo]);
     }
   }
   return resultado;
 }
 
-list<archivo> Tree::busquedaPorExtension(string extension) {
+list<archivo> Tree::busquedaPorExtension(string extension)
+{
   list<archivo> resultados;
-  for (string elemento : keys) {
-    string formatoWin= invertirFormato(elemento);
+  for (string elemento : keys)
+  {
+    string formatoWin = invertirFormato(elemento);
     std::filesystem::path rutaArchivo{formatoWin};
-    cout<<formatoWin<<endl;
+    cout << formatoWin << endl;
     if ("." + extension == rutaArchivo.extension())
       resultados.push_back(archivos[elemento]);
   }
   return resultados;
 }
 
-void Tree::cargarPesoDeCarpetas() {
-  for (string key : keys) {
-    if (esCarpeta(key)) {
-      for (string hijo : archivos[key].childs) {
+void Tree::cargarPesoDeCarpetas()
+{
+  for (string key : keys)
+  {
+    if (esCarpeta(key))
+    {
+      for (string hijo : archivos[key].childs)
+      {
         archivos[key].peso += archivos[hijo].peso;
       }
     }
   }
 }
 
-bool Tree::existeKey(string path) {
-  for (string key : keys) {
+bool Tree::existeKey(string path)
+{
+  for (string key : keys)
+  {
     if (key == path)
       return true;
   }
@@ -152,18 +178,67 @@ list<archivo> Tree::postorder(string root)
     }
 
     resultado.push_back(archivos[nodo->name]);
-    cout<<"added: "<<nodo->name<<endl;
+    cout << "added: " << nodo->name << endl;
   }
   return resultado;
 }
 
-void Tree::distribuirPeso(string ruta, int peso){
-  int size= split(ruta,'\\').size();
-  if(size==1)
+void Tree::distribuirPeso(string ruta, int peso)
+{
+  int size = split(ruta, '\\').size();
+  if (size == 1)
     return;
-  else{ 
-   string padre = getPadre(ruta);
-    archivos[padre].peso+=peso;
-   distribuirPeso(padre, peso);
+  else
+  {
+    string padre = getPadre(ruta);
+    archivos[padre].peso += peso;
+    distribuirPeso(padre, peso);
   }
+}
+
+void Tree::conteoElementos(string ruta)
+{
+  int size = split(ruta, '\\').size();
+  if (size == 1)
+    return;
+  else
+  {
+    string padre = getPadre(ruta);
+    archivos[padre].subelementos++;
+    conteoElementos(padre);
+  }
+}
+
+map<string, archivo> Tree::getArchivosMasPesados()
+{
+  map<string, archivo> resultado;
+  for (string ruta : keys)
+  {
+    if (esCarpeta(ruta))
+    {
+      resultado[ruta] = obtenerArchivoMasPesado(ruta);
+    }
+  }
+  return resultado;
+}
+
+archivo Tree::obtenerArchivoMasPesado(string ruta)
+{
+  if (archivos[ruta].subelementos == 0)
+  {
+    archivo np;
+    np.name = "No posee archivo";
+    return np;
+  }
+
+  list<archivo> recorrido = preorden(ruta);
+  archivo masPesado;
+  for (archivo subRuta : recorrido)
+  {
+    if ((subRuta.peso > masPesado.peso) && (!esCarpeta(subRuta.route)))
+    {
+      masPesado = subRuta;
+    }
+  }
+  return masPesado;
 }

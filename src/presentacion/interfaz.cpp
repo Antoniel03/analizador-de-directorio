@@ -17,22 +17,26 @@ using std::vector;
 #define RESET "\x1b[0m"
 #define GREEN "\x1B[32m"
 
-void Interfaz::pause() {
+void Interfaz::pause()
+{
   cout << "\nPresione enter para continuar.";
   getchar();
 }
 
-bool Interfaz::validarInput(string input) { // Valida entra de datos numéricas
+bool Interfaz::validarInput(string input)
+{ // Valida entra de datos numéricas
   if (input == "")
-    return false;        // verdadero: solo hay números en el string dado
-  for (auto i : input) { // falso:hay otros caracteres
+    return false; // verdadero: solo hay números en el string dado
+  for (auto i : input)
+  { // falso:hay otros caracteres
     if (isalpha(i))
       return false;
   }
   return true;
 }
 
-int Interfaz::getInput(int range) { // Entrada de datos numérica
+int Interfaz::getInput(int range)
+{ // Entrada de datos numérica
   string input;
   cout << GREEN << ">>: " << RESET;
   getline(std::cin, input);
@@ -41,7 +45,8 @@ int Interfaz::getInput(int range) { // Entrada de datos numérica
 
   int inputOpcion = stoi(input);
 
-  if ((inputOpcion) > 0 && (inputOpcion <= range)) {
+  if ((inputOpcion) > 0 && (inputOpcion <= range))
+  {
     return stoi(input);
   }
 
@@ -49,25 +54,30 @@ int Interfaz::getInput(int range) { // Entrada de datos numérica
     return 0;
 }
 
-string Interfaz::getText(string mensaje) {
+string Interfaz::getText(string mensaje)
+{
   string text;
   cout << "\n" + mensaje << GREEN << " >>: " << RESET;
   getline(cin, text);
   return text;
 }
 
-void Interfaz::inputIncorrecto() {
+void Interfaz::inputIncorrecto()
+{
   printf(RED "\nOpcion invalida.\n" RESET);
   pause();
 }
 
-void Interfaz::errorPersonalizado(string mensaje) {
+void Interfaz::errorPersonalizado(string mensaje)
+{
   cout << RED << mensaje << RESET;
   pause();
 }
 
-void Interfaz::printOpciones(vector<string> opciones, bool numeracion) {
-  for (int i = 0; i < opciones.size(); i++) {
+void Interfaz::printOpciones(vector<string> opciones, bool numeracion)
+{
+  for (int i = 0; i < opciones.size(); i++)
+  {
     if (numeracion)
       cout << GREEN << i + 1 << ") " << RESET;
     cout << opciones[i];
@@ -75,15 +85,18 @@ void Interfaz::printOpciones(vector<string> opciones, bool numeracion) {
   }
 }
 
-void Interfaz::printTitulo(string title) {
+void Interfaz::printTitulo(string title)
+{
   cout << " -------------- " << GREEN + title + RESET + " -------------- \n\n";
 }
 
-int Interfaz::Menu(vector<string> opciones, string titulo) {
+int Interfaz::Menu(vector<string> opciones, string titulo)
+{
 
   int rango = opciones.size();
   int seleccion = 0;
-  while (true) {
+  while (true)
+  {
     printTitulo(titulo);
     printOpciones(opciones, true);
     seleccion = getInput(rango);
@@ -96,39 +109,51 @@ int Interfaz::Menu(vector<string> opciones, string titulo) {
   return seleccion;
 }
 
-void Interfaz::printArchivo(archivo n) {
+void Interfaz::printArchivo(archivo n)
+{
   string archivoFormateado = getStringRepetido(' ', n.level) + n.route;
-  if (esCarpeta(n.route)) {
+  if (esCarpeta(n.route))
+  {
     cout << GREEN;
     cout << archivoFormateado;
     cout << RESET;
     cout << " " << YELLOW << n.peso << " Bytes" << RESET;
-  } else {
+    cout << " n = " << n.subelementos;
+  }
+  else
+  {
     /*int peso = getPeso(n.route);*/
     cout << archivoFormateado << YELLOW << " " << n.peso << " Bytes" << RESET;
   }
   cout << endl;
 }
 
-void Interfaz::printStringList(list<archivo> elements) {
-  for (archivo i : elements) {
+void Interfaz::printStringList(list<archivo> elements)
+{
+  for (archivo i : elements)
+  {
     printArchivo(i);
   }
 }
 
-void Interfaz::printBusqueda(list<archivo> elementos) {
-  for (archivo n : elementos) {
+void Interfaz::printBusqueda(list<archivo> elementos)
+{
+  for (archivo n : elementos)
+  {
     cout << GREEN << n.name << RESET << " --> " << n.route << endl;
   }
 }
 
-void Interfaz::printColorString(int numeroColor, string mensaje) {
+void Interfaz::printColorString(int numeroColor, string mensaje)
+{
   string color = getColor(numeroColor);
   cout << color << mensaje << RESET;
 }
 
-string Interfaz::getColor(int numeroColor) {
-  switch (numeroColor) {
+string Interfaz::getColor(int numeroColor)
+{
+  switch (numeroColor)
+  {
   case 1:
     return YELLOW;
   case 2:

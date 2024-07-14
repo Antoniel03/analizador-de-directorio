@@ -116,9 +116,7 @@ void menuDirectorio(Interfaz *i, string ruta)
       map<string, archivo> masPesados = directorio.getArchivosMasPesados();
       manejadorHTML html{recorrido, masPesados};
       html.generarHTML();
-      cout << "Se ha generado el archivo HTML con las estadisticas del "
-              "directorio."
-           << endl;
+      cout << "Se han generado las estadisticas del directorio." << endl;
       i->pause();
       break;
     }
